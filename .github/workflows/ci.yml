@@ -35,7 +35,6 @@ jobs:
         run:  cat ./test-results/logs/test_log.txt
 
       - name: Find the test results file
-        #id: find-file
         run: |
           echo "Searching for test results files in test-results/artifacts"
           # List files for debugging purposes

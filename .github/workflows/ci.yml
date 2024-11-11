@@ -25,15 +25,17 @@ jobs:
 
       # Step 4: Start Docker Compose services and run tests
       - name: Start services and run tests
-        run: |
-          docker-compose up -d  # Start containers in detached mode
-          
+        run: docker-compose up -d  # Start containers in detached mode
+
+      - name: Check test results
+        run: cat /test-results/logs/test_log.txt  # Optional: Display logs in the workflow
+      
       # Step 6: Upload test results as artifact
       - name: Upload test results
         uses: actions/upload-artifact@v3
         with:
           name: test-results
-          path: ./test-results/
+          path: /test-results/artifacts/
 
       # Step 7: Shut down Docker Compose services
       - name: Stop Docker Compose services

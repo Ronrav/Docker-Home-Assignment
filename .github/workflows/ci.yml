@@ -27,14 +27,7 @@ jobs:
       - name: Start services and run tests
         run: |
           docker-compose up -d  # Start containers in detached mode
-          docker-compose logs -f  # Stream logs to follow the output
-
-      # Step 5: Copy test results from the container to GitHub runner
-      - name: Copy test results from the container
-        run: |
-          # Copy the 'test-results' directory from the test container to the host
-          docker cp $(docker-compose ps -q test):/test-results ./test-results
-
+          
       # Step 6: Upload test results as artifact
       - name: Upload test results
         uses: actions/upload-artifact@v3

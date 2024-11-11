@@ -31,7 +31,7 @@ jobs:
         run: sleep 3 
 
       - name: Display logs in the workflow
-        run:  cat ./test-s/logs/test_log.txt
+        run:  cat ./test-results/logs/test_log.txt
 
       - name: Find the test results file
         id: find-file

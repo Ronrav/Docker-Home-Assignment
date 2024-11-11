@@ -28,7 +28,7 @@ jobs:
         run: docker-compose up -d  # Start containers in detached mode
       
       - name: Wait for container to finish writing files
-        run: sleep 5  # Adjust as needed to give the container enough time to complete
+        run: sleep 3  # Adjust as needed to give the container enough time to complete
 
       - name: Check test results check location
         run:  ls -R test-results #cat ./test-results/logs/test_log.txt  # Optional: Display logs in the workflow
@@ -38,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: test-results
-          path: /test-results/artifacts/
+          path: ./test-results/artifacts/*
 
       # Step 7: Shut down Docker Compose services
       - name: Stop Docker Compose services

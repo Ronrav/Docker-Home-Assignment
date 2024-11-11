@@ -15,6 +15,7 @@ jobs:
       # Set up Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
+     
       # Set up Docker compose
       - name: Install Docker Compose
         run: sudo apt-get install -y docker-compose
@@ -34,7 +35,7 @@ jobs:
         run:  cat ./test-results/logs/test_log.txt
 
       - name: Find the test results file
-        id: find-file
+        #id: find-file
         run: |
           echo "Searching for test results files in test-results/artifacts"
           # List files for debugging purposes

@@ -28,11 +28,8 @@ jobs:
         run: docker-compose up -d  # Start containers in detached mode
 
       - name: Check test results check location
-        run:  ls -R #cat ./test-results/logs/test_log.txt  # Optional: Display logs in the workflow
+        run:  ls -R test-results #cat ./test-results/logs/test_log.txt  # Optional: Display logs in the workflow
 
-      - name: Check test results check location
-        run:  cat ./test-results/logs/test_log.txt  # Optional: Display logs in the workflow
-      
       # Step 6: Upload test results as artifact
       - name: Upload test results
         uses: actions/upload-artifact@v3

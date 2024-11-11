@@ -4,6 +4,8 @@ import requests
 # Constants
 NGINX_HOST = os.getenv("NGINX_HOST", "localhost")
 RESULTS_DIR = os.getenv("RESULTS_DIR", "./test-results")
+LOGS_DIR = f'{RESULTS_DIR}/logs/'
+ARTIFACT_DIR = f'{RESULTS_DIR}/artifacts/'
 PORT_8080 = 8080
 PORT_9090 = 9090
 EXPECTED_STATUS_8080 = 200
@@ -15,9 +17,9 @@ LOG_FILE = "test_log.txt"
 
 
 # Helper function to write results
-def write_result(filename, content):
-    os.makedirs(RESULTS_DIR, exist_ok=True)
-    filepath = os.path.join(RESULTS_DIR, filename)
+def write_result(path, filename, content):
+    os.makedirs(path, exist_ok=True)
+    filepath = os.path.join(path, filename)
     with open(filepath, "w") as f:
         f.write(content)
 
@@ -36,12 +38,12 @@ def test_server():
         assert response_9090.status_code == EXPECTED_STATUS_9090, f"Unexpected status code {response_9090.status_code} on {url_9090}"
 
         # Write success
-        write_result(SUCCESS_FILE, "Tests passed successfully.\n")
-        write_result(LOG_FILE, f"Port 8080 and 9090 tests passed.\n")
+        write_result(ARTIFACT_DIR, SUCCESS_FILE, "Tests passed successfully.\n")
+        write_result(LOGS_DIR, LOG_FILE, f"Port 8080 and 9090 tests passed.\n")
     except Exception as e:
         # Write failure
-        write_result(FAIL_FILE, "Tests failed.\n")
-        write_result(LOG_FILE, f"Error occurred: {str(e)}\n")
+        write_result(ARTIFACT_DIR, FAIL_FILE, "Tests failed.\n")
+        write_result(LOGS_DIR, LOG_FILE, f"Error occurred: {str(e)}\n")
 
 
 if __name__ == "__main__":

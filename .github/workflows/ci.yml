@@ -21,15 +21,15 @@ jobs:
     needs: setup
     steps:
       - name: Build Docker Compose services
-        run: docker-compose build
+        run: docker compose build
 
       - name: Start services and run tests
-        run: docker-compose up -d
+        run: docker compose up -d
 
       - name: Wait for specific log message
         run: |
           echo "Waiting for test container to complete..."
-          docker-compose logs -f test-container | grep -q "Test script finished"
+          docker compose logs -f test-container | grep -q "Test script finished"
           echo "Test container has completed."
 
       - name: Display logs in the workflow
@@ -58,4 +58,4 @@ jobs:
     needs: build-and-test
     steps:
       - name: Stop Docker Compose services
-        run: docker-compose down
+        run: docker compose down

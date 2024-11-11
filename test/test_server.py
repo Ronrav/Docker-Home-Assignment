@@ -2,44 +2,47 @@ import os
 import requests
 
 # Constants
-NGINX_HOST = "nginx"
+NGINX_HOST = os.getenv("NGINX_HOST", "localhost")
+RESULTS_DIR = os.getenv("RESULTS_DIR", "./test-results")
 PORT_8080 = 8080
 PORT_9090 = 9090
 EXPECTED_STATUS_8080 = 200
 EXPECTED_CONTENT_8080 = "Custom HTML Response"
 EXPECTED_STATUS_9090 = 503
-RESULTS_DIR = "/test-results"
-SUCCESS_FILE_NAME = "succeeded"
-FAIL_FILE_NAME = "fail"
+SUCCESS_FILE = "succeeded"
+FAIL_FILE = "fail"
+LOG_FILE = "test_log.txt"
 
-def test_nginx():
+
+# Helper function to write results
+def write_result(filename, content):
     os.makedirs(RESULTS_DIR, exist_ok=True)
+    filepath = os.path.join(RESULTS_DIR, filename)
+    with open(filepath, "w") as f:
+        f.write(content)
 
+
+def test_server():
     try:
-        # Test port 8080
+        # Test port 8080 for custom HTML response
         url_8080 = f"http://{NGINX_HOST}:{PORT_8080}"
         response_8080 = requests.get(url_8080)
-        if response_8080.status_code != EXPECTED_STATUS_8080:
-            raise ValueError(f"Port {PORT_8080} test failed: Expected {EXPECTED_STATUS_8080}, got {response_8080.status_code}")
-        if EXPECTED_CONTENT_8080 not in response_8080.text:
-            raise ValueError(f"Port {PORT_8080} content test failed: Expected '{EXPECTED_CONTENT_8080}' in response.")
+        assert response_8080.status_code == EXPECTED_STATUS_8080, f"Unexpected status code {response_8080.status_code} on {url_8080}"
+        assert EXPECTED_CONTENT_8080 in response_8080.text, "Custom HTML not found in response"
 
-        # Test port 9090
+        # Test port 9090 for HTTP error
         url_9090 = f"http://{NGINX_HOST}:{PORT_9090}"
         response_9090 = requests.get(url_9090)
-        if response_9090.status_code != EXPECTED_STATUS_9090:
-            raise ValueError(f"Port {PORT_9090} test failed: Expected {EXPECTED_STATUS_9090}, got {response_9090.status_code}")
+        assert response_9090.status_code == EXPECTED_STATUS_9090, f"Unexpected status code {response_9090.status_code} on {url_9090}"
 
-        # If all tests pass
-        with open(f"{RESULTS_DIR}/{SUCCESS_FILE_NAME}", "w") as success_file:
-            success_file.write("All tests passed successfully.")
-        print("All tests passed successfully.")
-
+        # Write success
+        write_result(SUCCESS_FILE, "Tests passed successfully.\n")
+        write_result(LOG_FILE, f"Port 8080 and 9090 tests passed.\n")
     except Exception as e:
-        with open(f"{RESULTS_DIR}/{FAIL_FILE_NAME}", "w") as fail_file:
-            fail_file.write(str(e))
-        print(f"Test failed: {e}")
-        exit(1)
+        # Write failure
+        write_result(FAIL_FILE, "Tests failed.\n")
+        write_result(LOG_FILE, f"Error occurred: {str(e)}\n")
+
 
 if __name__ == "__main__":
-    test_nginx()
+    test_server()

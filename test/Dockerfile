@@ -9,4 +9,4 @@ RUN apk add --no-cache python3 py3-pip && \
 COPY test_server.py /usr/local/bin/test_server.py
 
 # Set the default command to run the test script
-CMD ["python3", "/usr/local/bin/test_server.py", "&&", "tail", "-f", "/dev/null"]
+CMD ["python3", "/usr/local/bin/test_server.py"]

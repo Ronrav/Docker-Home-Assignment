@@ -33,12 +33,20 @@ jobs:
       - name: Display logs in the workflow
         run:  cat ./test-results/logs/test_log.txt
       
-      # Upload test results as artifact
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
+      - name: Find the test result file
+        id: find-file
+        run: |
+          # Assuming the file will be in the test-results directory and its name will be either "succeeded" or "fail"
+          FILE=$(ls ./test-results | grep -E 'succeeded|fail')
+          echo "Found test result file: $FILE"
+          # Set the file name as the artifact name
+          echo "artifact_name=$FILE" >> $GITHUB_ENV
+
+      - name: Upload the test result artifact
+        uses: actions/upload-artifact@v3
         with:
-          name: test-results
-          path: ./test-results/artifacts/succeeded
+          name: ${{ env.artifact_name }}  # Use the dynamically set artifact name
+          path: ./test-results/${{ env.artifact_name }}  # Upload the corresponding file
 
       # Shut down Docker Compose services
       - name: Stop Docker Compose services

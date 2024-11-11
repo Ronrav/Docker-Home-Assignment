@@ -36,7 +36,7 @@ jobs:
       - name: Check the contents of the artifacts directory
         run: |
           echo "Listing contents of test-result/artifacts directory"
-          ls -la ./test-result/artifacts
+          ls -la ./test-results/artifacts
           # Print any existing files for debugging
           cat ./test-result/artifacts/* || echo "No result files found"
 

@@ -31,40 +31,33 @@ jobs:
         run: sleep 3 
 
       - name: Display logs in the workflow
-        run:  cat ./test-results/logs/test_log.txt
-      
-      - name: Check the contents of the artifacts directory
-        run: |
-          echo "Listing contents of test-result/artifacts directory"
-          ls -la ./test-results/artifacts
-          # Print any existing files for debugging
-          cat ./test-result/artifacts/* || echo "No result files found"
+        run:  cat ./test-s/logs/test_log.txt
 
-      - name: Find the test result file
+      - name: Find the test results file
         id: find-file
         run: |
-          echo "Searching for test result files in test-result/artifacts"
+          echo "Searching for test results files in test-results/artifacts"
           # List files for debugging purposes
-          ls -la ./test-result/artifacts
+          ls -la ./test-results/artifacts
 
           # Look for the file named either 'succeeded' or 'fail'
-          FILE=$(ls ./test-result/artifacts | grep -E 'succeeded|fail' || echo "no result file found")
-          echo "Found test result file: $FILE"
+          FILE=$(ls ./test-results/artifacts | grep -E 'succeeded|fail' || echo "no results file found")
+          echo "Found test results file: $FILE"
 
           # If no file is found, exit with a custom error
-          if [ "$FILE" == "no result file found" ]; then
-            echo "No result file found in artifacts directory."
+          if [ "$FILE" == "no results file found" ]; then
+            echo "No results file found in artifacts directory."
             exit 1
           fi
           
           # Save the file name to an environment variable for later use
           echo "artifact_name=$FILE" >> $GITHUB_ENV
 
-      - name: Upload the test result artifact
+      - name: Upload the test results artifact
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.artifact_name }}  # Dynamically set artifact name
-          path: ./test-result/artifacts/${{ env.artifact_name }}  # Upload the file
+          path: ./test-results/artifacts/${{ env.artifact_name }}  # Upload the file
 
       # Shut down Docker Compose services
       - name: Stop Docker Compose services

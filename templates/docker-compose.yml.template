@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+     - "<SERVER_PORT_HTML>:<SERVER_PORT_HTML>"
+     - "<SERVER_PORT_ERROR>:<SERVER_PORT_ERROR>"
+    volumes:
+      - ./<SHARED_DIR>:/<SHARED_DIR>  # Mounts the shared folder as a shared volume
+    container_name: nginx
+    networks:
+      - test_network
+
+  test:
+    build:
+      context: ./test
+    depends_on:
+      - nginx
+    container_name: test
+    volumes:
+      - "./<RESULTS_DIR>:/<RESULTS_DIR>"  # Shared volume with the host
+      - ./<SHARED_DIR>:/<SHARED_DIR>  # Mounts the html folder as a shared volume
+    networks:
+      - test_network
+
+volumes:
+  <RESULTS_DIR>:
+  <SHARED_DIR>:
+
+networks:
+  test_network:
+    driver: bridge

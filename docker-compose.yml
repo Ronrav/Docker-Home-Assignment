@@ -5,12 +5,13 @@ services:
     build:
       context: ./nginx
     ports:
-      - "8080:8080"
-      - "9090:9090"
+     - "8080:8080"
+     - "9090:9090"
+    volumes:
+      - ./shared:/shared  # Mounts the shared folder as a shared volume
     container_name: nginx
     networks:
       - test_network
-
 
   test:
     build:
@@ -19,16 +20,14 @@ services:
       - nginx
     container_name: test
     volumes:
-      - ./test-results:/test-results  # Shared volume with the host
+      - "./test-results:/test-results"  # Shared volume with the host
+      - ./shared:/shared  # Mounts the html folder as a shared volume
     networks:
       - test_network
-    environment:
-      - NGINX_HOST=nginx
-      - RESULTS_DIR=/test-results
-
 
 volumes:
   test-results:
+  shared:
 
 networks:
   test_network:

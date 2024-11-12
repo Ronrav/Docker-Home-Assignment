@@ -8,5 +8,8 @@ RUN apk add --no-cache python3 py3-pip && \
 # Copy the Python test script to the container
 COPY test_server.py /usr/local/bin/test_server.py
 
+# Copy the expected custom.html answer
+#COPY ../config/custom.html /usr/local/bin/custom.html
+
 # Set the default command to run the test script
 CMD ["python3", "/usr/local/bin/test_server.py"]

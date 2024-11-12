@@ -1,51 +1,73 @@
 import os
 import requests
+from http import HTTPStatus
 
-# Constants
-NGINX_HOST = os.getenv("NGINX_HOST", "localhost")
-RESULTS_DIR = os.getenv("RESULTS_DIR", "./test-results")
-LOGS_DIR = f'{RESULTS_DIR}/logs/'
-ARTIFACT_DIR = f'{RESULTS_DIR}/artifacts/'
-PORT_8080 = 8080
-PORT_9090 = 9090
-EXPECTED_STATUS_8080 = 200
-EXPECTED_CONTENT_8080 = "Custom HTML Response"
-EXPECTED_STATUS_9090 = 503
-SUCCESS_FILE = "succeeded"
-FAIL_FILE = "fail"
-LOG_FILE = "test_log.txt"
-
-
-# Helper function to write results
-def write_result(path, filename, content):
-    os.makedirs(path, exist_ok=True)
-    filepath = os.path.join(path, filename)
-    with open(filepath, "w") as f:
-        f.write(content)
+# Environment Variables with Default Values
+NGINX_HOST = 'nginx'
+SERVER_PORT_HTML = int(8080)
+SERVER_PORT_ERROR = int(9090)
+HTML_FILE_PATH = '/shared/index.html'
+RESULTS_DIR = 'test-results'
+SUCCESS_FILE_NAME = 'succeeded'
+FAIL_FILE_NAME = 'fail'
+SHARED_DIR = 'shared'
+HTML_URL = f"http://{NGINX_HOST}:{SERVER_PORT_HTML}"
+HTTP_ERROR_URL = f"http://{NGINX_HOST}:{SERVER_PORT_ERROR}"
 
 
-def test_server():
+def test_html_server():
+    """Test the HTML server on SERVER_PORT_HTML by verifying the response matches a given file"""
+
+    # Read the expected HTML content from the specified file
+    if not os.path.exists(HTML_FILE_PATH):
+        raise FileNotFoundError(f"HTML file not found at {HTML_FILE_PATH}")
+
+    with open(HTML_FILE_PATH, "r") as file:
+        expected_content = file.read()
+
+    # Make the HTTP request
+    response = requests.get(HTML_URL)
+    if response.status_code != HTTPStatus.OK:
+        raise ValueError(
+            f"HTML server test failed on port {SERVER_PORT_HTML}: "
+            f"Expected {HTTPStatus.OK}, got {response.status_code}"
+        )
+    if response.text != expected_content:
+        raise ValueError(
+            f"HTML server content test failed on port {SERVER_PORT_HTML}: "
+            "The response content does not match the expected HTML file content."
+        )
+
+
+def test_error_server():
+    """Test the error server on SERVER_PORT_ERROR"""
+
+    response = requests.get(HTTP_ERROR_URL)
+    if response.status_code != HTTPStatus.SERVICE_UNAVAILABLE:
+        raise ValueError(
+            f"Error server test failed on port {SERVER_PORT_ERROR}: "
+            f"Expected {HTTPStatus.SERVICE_UNAVAILABLE}, got {response.status_code}"
+        )
+
+
+def main():
+    os.makedirs(RESULTS_DIR, exist_ok=True)
+
     try:
-        # Test port 8080 for custom HTML response
-        url_8080 = f"http://{NGINX_HOST}:{PORT_8080}"
-        response_8080 = requests.get(url_8080)
-        assert response_8080.status_code == EXPECTED_STATUS_8080, f"Unexpected status code {response_8080.status_code} on {url_8080}"
-        assert EXPECTED_CONTENT_8080 in response_8080.text, "Custom HTML not found in response"
+        test_html_server()
+        test_error_server()
 
-        # Test port 9090 for HTTP error
-        url_9090 = f"http://{NGINX_HOST}:{PORT_9090}"
-        response_9090 = requests.get(url_9090)
-        assert response_9090.status_code == EXPECTED_STATUS_9090, f"Unexpected status code {response_9090.status_code} on {url_9090}"
+        # If all tests pass
+        with open(f"{RESULTS_DIR}/{SUCCESS_FILE_NAME}", "w") as success_file:
+            success_file.write("All tests passed successfully.")
+        print("All tests passed successfully.")
 
-        # Write success
-        write_result(ARTIFACT_DIR, SUCCESS_FILE, "Tests passed successfully.\n")
-        write_result(LOGS_DIR, LOG_FILE, f"Port 8080 and 9090 tests passed.\n")
     except Exception as e:
-        # Write failure
-        write_result(ARTIFACT_DIR, FAIL_FILE, "Tests failed.\n")
-        write_result(LOGS_DIR, LOG_FILE, f"Error occurred: {str(e)}\n")
+        with open(f"{RESULTS_DIR}/{FAIL_FILE_NAME}", "w") as fail_file:
+            fail_file.write(str(e))
+        print(f"Test failed: {e}")
+        exit(1)
 
 
 if __name__ == "__main__":
-    test_server()
-    print('Test script finished')
+    main()

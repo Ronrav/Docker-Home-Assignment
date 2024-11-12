@@ -1,0 +1,12 @@
+{
+    "NGINX_HOST": "nginx",
+    "SERVER_PORT_HTML": 8080,
+    "SERVER_PORT_ERROR": 9090,
+    "HTTP_ERROR_CODE": 503,
+    "HTML_FILE_PATH": "/shared/index.html",
+    "RESULTS_DIR": "results",
+    "SUCCESS_FILE_NAME": "succeeded",
+    "FAIL_FILE_NAME": "fail",
+    "SHARED_DIR": "shared"
+  }
+  

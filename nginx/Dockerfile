@@ -3,7 +3,7 @@ FROM ubuntu:20.04
 
 # Install Nginx
 RUN apt-get update && \
-    apt-get install -y nginx gettext && \
+    apt-get install -y nginx && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 

@@ -30,6 +30,11 @@ if __name__ == "__main__":
     config_path = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(__file__), 'config.json')
 
     try:
+        
+        # create nginx folder
+        nginx_folder = "nginx"
+        os.makedirs(nginx_folder, exist_ok=True)
+        
         # Load configuration
         config = load_config(config_path)
 

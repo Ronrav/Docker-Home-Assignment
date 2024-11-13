@@ -12,12 +12,6 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-        # Set up Python
-      # - name: Set up Python
-      #  uses: actions/setup-python@v4
-      # with:
-      #  python-version: '3.x' # Replace with the specific Python version if needed
-
       # Run the configure_templates.py script
       - name: configure templated files
         run: python3 configure_templates.py
@@ -33,14 +27,11 @@ jobs:
       - name: Wait for container to finish writing files
         run: sleep 3
 
-      - name: Display logs in the workflow
-        run: cat ./results/logs/test_log.txt
-
       - name: Find the test results file
         run: |
           echo "Searching for test results files in results/artifacts"
 
-          # Look for the file named either 'succeeded' or 'fail'
+          # Look for the result file in the artifacts directory
           FILE=$(ls ./results/artifacts || echo "no results file found")
           echo "Found test results file: $FILE"
 

@@ -24,8 +24,10 @@ jobs:
       - name: Start services and run tests
         run: docker compose up -d # Start containers in detached mode
 
-      - name: Wait for container to finish writing files
-        run: sleep 3
+       # Wait for specific log output "Finished Testing"
+      - name: Ensure Testing was finished
+        run: |
+          timeout 30s bash -c 'until docker compose logs test | grep -q "Finished Testing"; do sleep 1; done'
 
       - name: Find the test results file
         run: |

@@ -8,11 +8,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 
-
-# Create the directory for the custom HTML file
-RUN mkdir -p /var/www/custom
-
 EXPOSE <SERVER_PORT_HTML> <SERVER_PORT_ERROR>
+
 # Copy the Nginx server block configuration
 COPY nginx.conf /etc/nginx/conf.d/nginx.conf
 

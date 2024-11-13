@@ -20,7 +20,7 @@ services:
       - nginx
     container_name: test
     volumes:
-      - "./<RESULTS_DIR>:/<RESULTS_DIR>"  # Shared volume with the host
+      - ./<RESULTS_DIR>:/<RESULTS_DIR>  # Shared volume with the host
       - ./<SHARED_DIR>:/<SHARED_DIR>  # Mounts the html folder as a shared volume
     networks:
       - test_network

@@ -12,6 +12,10 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      #test
+      - name: test sleep
+        run: sleep 3
+      
       # Run the configure_templates.py script
       - name: Configure nginx
         run: ./configure-nginx.sh

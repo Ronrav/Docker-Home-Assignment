@@ -1,0 +1,14 @@
+server {
+    listen <SERVER_PORT_HTML>;
+    server_name localhost;
+    location / {
+        root /<SHARED_DIR>;
+        index index.html;
+    }
+}
+
+server {
+    listen <SERVER_PORT_ERROR>;
+    server_name localhost;
+    return <HTTP_ERROR_CODE>;
+}

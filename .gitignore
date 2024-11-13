@@ -1,0 +1,7 @@
+# Ignore generated files from templates
+test/test_server.py
+nginx/nginx.conf
+nginx/Dockerfile
+docker-compose.yml
+.github/workflows/ci.yml
+results/*

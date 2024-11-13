@@ -46,7 +46,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.artifact_name }} # Dynamically set artifact name
-          path: ./results/artifacts/${{ env.artifact_name }} # Upload the file
+          path: ./results/${{ env.artifact_name }} # Upload the file
 
       # Shut down Docker Compose services
       - name: Stop Docker Compose services

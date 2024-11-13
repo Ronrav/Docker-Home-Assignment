@@ -8,6 +8,11 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 
+<<<<<<< HEAD:nginx/Dockerfile
+=======
+<SERVER_PORT_HTML> <SERVER_PORT_ERROR>
+
+>>>>>>> 97051f569f4bfa81025eccbca5dc55a563ca6881:templates/Dockerfile.nginx.template
 # Copy the Nginx server block configuration
 COPY nginx.conf /etc/nginx/conf.d/nginx.conf
 

@@ -8,7 +8,10 @@ In order to run locally:
 
 - clone the repository to your local machine
 - run:
-  - python3 configure_templates.py
+  - ./configure-nginx.sh
   - docker-compose build
   - docker-compose up
 - The result file will be found under ./results
+- Port numbers and dir names are configurable via .env file
+- dependencies:
+  -envsubst

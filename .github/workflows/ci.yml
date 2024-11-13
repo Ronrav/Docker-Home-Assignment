@@ -13,8 +13,8 @@ jobs:
         uses: actions/checkout@v4
 
       # Run the configure_templates.py script
-      - name: configure templated files
-        run: python3 configure_templates.py
+      - name: Configure nginx
+        run: ./configure-nginx.sh
 
       # Build Docker images
       - name: Build Docker Compose services

@@ -3,18 +3,11 @@ FROM ubuntu:20.04
 
 # Install Nginx
 RUN apt-get update && \
-    apt-get install -y nginx && \
+    apt-get install -y nginx gettext && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-
-<<<<<<< HEAD:nginx/Dockerfile
-=======
-<SERVER_PORT_HTML> <SERVER_PORT_ERROR>
-
->>>>>>> 97051f569f4bfa81025eccbca5dc55a563ca6881:templates/Dockerfile.nginx.template
-# Copy the Nginx server block configuration
+# Copy the Nginx configuration template and startup script
 COPY nginx.conf /etc/nginx/conf.d/nginx.conf
 
-# Set the default command to run Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]

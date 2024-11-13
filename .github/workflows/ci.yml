@@ -1,0 +1,53 @@
+name: Docker CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Check out code
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Run the configure_templates.py script
+      - name: configure templated files
+        run: python3 configure_templates.py
+
+      # Build Docker images
+      - name: Build Docker Compose services
+        run: docker compose build
+
+      # Start Docker ontainers and run tests
+      - name: Start services and run tests
+        run: docker compose up -d # Start containers in detached mode
+
+      - name: Wait for container to finish writing files
+        run: sleep 3
+
+      - name: Find the test results file
+        run: |
+          echo "Searching for test results files in results"
+
+          # Look for the result file in the artifacts directory
+          FILE=$(ls ./results || echo "no results file found")
+          echo "Found test results file: $FILE"
+
+          # If no file is found, exit with a custom error
+          if [ "$FILE" == "no results file found" ]; then
+            echo "No file found in results directory."
+            exit 1
+          fi
+          echo "artifact_name=$FILE" >> $GITHUB_ENV
+
+      - name: Upload the test results artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.artifact_name }} # Dynamically set artifact name
+          path: ./results/${{ env.artifact_name }} # Upload the file
+
+      # Shut down Docker Compose services
+      - name: Stop Docker Compose services
+        run: docker compose down

@@ -1,5 +1,5 @@
 # Use the Ubuntu base image
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
 # Install Nginx
 RUN apt-get update && \

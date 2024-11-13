@@ -12,6 +12,10 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      # Make the script executable (if it’s not already)
+      - name: add execution premission 
+        run: chmod +x configure-nginx.sh
+      
       # Run the configure_templates.py script
       - name: Configure nginx
         run: ./configure-nginx.sh

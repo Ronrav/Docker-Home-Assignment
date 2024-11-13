@@ -3,9 +3,6 @@ services:
   nginx:
     build:
       context: ./nginx
-    ports:
-     - "<SERVER_PORT_HTML>:<SERVER_PORT_HTML>"
-     - "<SERVER_PORT_ERROR>:<SERVER_PORT_ERROR>"
     volumes:
       - ./<SHARED_DIR>:/<SHARED_DIR>  # Mounts the shared folder as a shared volume
     container_name: nginx

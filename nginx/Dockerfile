@@ -8,8 +8,6 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 
-EXPOSE <SERVER_PORT_HTML> <SERVER_PORT_ERROR>
-
 # Copy the Nginx server block configuration
 COPY nginx.conf /etc/nginx/conf.d/nginx.conf
 

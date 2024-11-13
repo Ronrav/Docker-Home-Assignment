@@ -41,7 +41,6 @@ if __name__ == "__main__":
         # Replace placeholders in the template files
         replace_placeholders(config, 'templates/test_server.py.template', 'test/test_server.py')
         replace_placeholders(config, 'templates/nginx.conf.template', 'nginx/nginx.conf')
-        replace_placeholders(config, 'templates/Dockerfile.nginx.template', 'nginx/Dockerfile')
         replace_placeholders(config, 'templates/docker-compose.yml.template', './docker-compose.yml')
 
     except Exception as e:

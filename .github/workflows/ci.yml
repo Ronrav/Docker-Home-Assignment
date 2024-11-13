@@ -49,8 +49,6 @@ jobs:
             echo "No results file found in artifacts directory."
             exit 1
           fi
-
-          # Save the file name to an environment variable for later use
           echo "artifact_name=$FILE" >> $GITHUB_ENV
 
       - name: Upload the test results artifact

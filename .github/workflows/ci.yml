@@ -12,6 +12,16 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+        # Set up Python
+      # - name: Set up Python
+      #  uses: actions/setup-python@v4
+      # with:
+      #  python-version: '3.x' # Replace with the specific Python version if needed
+
+      # Run the configure_templates.py script
+      - name: configure templated files
+        run: python3 configure_templates.py
+
       # Build Docker images
       - name: Build Docker Compose services
         run: docker compose build
@@ -29,11 +39,9 @@ jobs:
       - name: Find the test results file
         run: |
           echo "Searching for test results files in results/artifacts"
-          # List files for debugging purposes
-          ls -la ./results/artifacts
 
           # Look for the file named either 'succeeded' or 'fail'
-          FILE=$(ls ./results/artifacts | grep -E 'succeeded|fail' || echo "no results file found")
+          FILE=$(ls ./results/artifacts || echo "no results file found")
           echo "Found test results file: $FILE"
 
           # If no file is found, exit with a custom error

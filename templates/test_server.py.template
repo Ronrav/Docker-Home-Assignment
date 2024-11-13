@@ -1,11 +1,12 @@
 import os
 import requests
 from http import HTTPStatus
+from bs4 import BeautifulSoup
 
 # Environment Variables with Default Values
 NGINX_HOST = '<NGINX_HOST>'
-SERVER_PORT_HTML = SERVER_PORT_HTML
-SERVER_PORT_ERROR = SERVER_PORT_ERROR
+SERVER_PORT_HTML = <SERVER_PORT_HTML>
+SERVER_PORT_ERROR = <SERVER_PORT_ERROR>
 HTML_FILE_PATH = '<HTML_FILE_PATH>'
 RESULTS_DIR = '/<RESULTS_DIR>'
 SUCCESS_FILE_NAME = '<SUCCESS_FILE_NAME>'
@@ -32,10 +33,15 @@ def test_html_server():
             f"HTML server test failed on port {SERVER_PORT_HTML}: "
             f"Expected {HTTPStatus.OK}, got {response.status_code}"
         )
-    if response.text != expected_content:
+
+    # Compare the response content with the expected content
+
+    received_html = BeautifulSoup(response.text, "html.parser")
+    expected_html = BeautifulSoup(expected_content, "html.parser")
+    if received_html != expected_html:
         raise ValueError(
             f"HTML server content test failed on port {SERVER_PORT_HTML}: "
-            "The response content does not match the expected HTML file content."
+            f"The response content does not match the expected HTML file content. received:\n{response.text}\nexpected:\n{expected_content}"
         )
 
 

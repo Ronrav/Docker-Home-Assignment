@@ -38,6 +38,7 @@ if __name__ == "__main__":
         replace_placeholders(config, 'templates/nginx.conf.template', 'nginx/nginx.conf')
         replace_placeholders(config, 'templates/Dockerfile.nginx.template', 'nginx/Dockerfile')
         replace_placeholders(config, 'templates/docker-compose.yml.template', './docker-compose.yml')
+
     except Exception as e:
         print(f"Error: {e}")
         sys.exit(1)

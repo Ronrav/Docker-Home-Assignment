@@ -3,5 +3,5 @@ test/test_server.py
 nginx/nginx.conf
 nginx/Dockerfile
 docker-compose.yml
-test-results/*
+.github/workflows/ci.yml
 results/*

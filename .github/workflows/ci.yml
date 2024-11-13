@@ -13,8 +13,8 @@ jobs:
         uses: actions/checkout@v4
 
       #test
-      - name: test 
-        run: ls -la
+      - name: add execution premission 
+        run: chmod +x configure-nginx.sh
       
       # Run the configure_templates.py script
       - name: Configure nginx

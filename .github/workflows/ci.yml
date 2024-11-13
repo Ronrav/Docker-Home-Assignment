@@ -24,7 +24,7 @@ jobs:
       - name: Start services and run tests
         run: docker compose up -d # Start containers in detached mode
 
-        # Wait for specific log output "Finished Testing"
+        # Wait for indicative log to verify testing was finished properly
       - name: Ensure Testing was finished
         run: |
           timeout 20s bash -c 'docker compose logs -f test | grep -m 1 "Finished Testing"'
@@ -50,6 +50,5 @@ jobs:
           name: ${{ env.artifact_name }} # Dynamically set artifact name
           path: ./results/${{ env.artifact_name }} # Upload the file
 
-      # Shut down Docker Compose services
       - name: Stop Docker Compose services
         run: docker compose down

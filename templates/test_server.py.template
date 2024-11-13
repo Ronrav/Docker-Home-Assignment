@@ -3,7 +3,7 @@ import requests
 from http import HTTPStatus
 from bs4 import BeautifulSoup
 
-# Environment Variables with Default Values
+# constant variables set from config.json
 NGINX_HOST = '<NGINX_HOST>'
 SERVER_PORT_HTML = <SERVER_PORT_HTML>
 SERVER_PORT_ERROR = <SERVER_PORT_ERROR>

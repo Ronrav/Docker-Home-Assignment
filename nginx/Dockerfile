@@ -10,4 +10,5 @@ RUN apt-get update && \
 # Copy the Nginx configuration template and startup script
 COPY nginx.conf /etc/nginx/conf.d/nginx.conf
 
+# run Nginx in the foreground to keep the container running
 CMD ["nginx", "-g", "daemon off;"]

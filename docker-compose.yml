@@ -4,8 +4,11 @@ services:
     build:
       context: ./nginx
     volumes:
-      - ./${SHARED_DIR}:/${SHARED_DIR}  # Mounts the shared folder as a shared volume
+      - ./$SHARED_DIR:/$SHARED_DIR  # Mounts the shared folder as a shared volume
     container_name: nginx
+    ports:
+      - $SERVER_PORT_HTML:$SERVER_PORT_HTML
+      - $SERVER_PORT_ERROR:$SERVER_PORT_ERROR
     env_file:
       - .env
     networks:
@@ -18,8 +21,8 @@ services:
       - nginx
     container_name: test
     volumes:
-      - ./${RESULTS_DIR}:/${RESULTS_DIR}  # Shared volume with the host
-      - ./${SHARED_DIR}:/${SHARED_DIR}    # Mounts the html folder as a shared volume
+      - ./$RESULTS_DIR:/$RESULTS_DIR  # Shared volume with the host
+      - ./$SHARED_DIR:/$SHARED_DIR    # Mounts the html folder as a shared volume
     env_file:
       - .env
     networks:

@@ -13,10 +13,10 @@ jobs:
         uses: actions/checkout@v4
 
       # Make the script executable (if it’s not already)
-      - name: add execution premission 
+      - name: add execution premission
         run: chmod +x configure-nginx.sh
-      
-      # Run the configure_templates.py script
+
+      # Configure Nginx
       - name: Configure nginx
         run: ./configure-nginx.sh
 
@@ -24,8 +24,8 @@ jobs:
       - name: Build Docker Compose services
         run: docker compose build
 
-      # Start Docker ontainers and run tests
-      - name: Start services and run tests
+      # Start Docker containers and run tests
+      - name: Start containers and run tests
         run: docker compose up -d # Start containers in detached mode
 
         # Wait for indicative log to verify testing was finished properly

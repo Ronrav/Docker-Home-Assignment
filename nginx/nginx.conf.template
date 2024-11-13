@@ -1,14 +1,14 @@
 server {
-    listen ${SERVER_PORT_HTML};
-    server_name localhost;
+    listen $SERVER_PORT_HTML;
+    server_name $CUSTOM_HTML_SERVER_NAME;
     location / {
-        root /${SHARED_DIR};
-        index ${CUSTOM_HTML_FILE};
+        root /$SHARED_DIR;
+        index $CUSTOM_HTML_FILE;
     }
 }
 
 server {
-    listen ${SERVER_PORT_ERROR};
-    server_name localhost;
-    return ${HTTP_ERROR_CODE};
+    listen $SERVER_PORT_ERROR;
+    server_name $HTTP_ERROR_SERVER_NAME;
+    return $HTTP_ERROR_CODE;
 }

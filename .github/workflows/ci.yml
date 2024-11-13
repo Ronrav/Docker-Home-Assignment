@@ -13,8 +13,8 @@ jobs:
         uses: actions/checkout@v4
 
       #test
-      - name: test sleep
-        run: sleep 3
+      - name: test 
+        run: ls -la
       
       # Run the configure_templates.py script
       - name: Configure nginx

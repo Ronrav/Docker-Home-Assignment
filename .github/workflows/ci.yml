@@ -18,7 +18,7 @@ jobs:
       
       # Run the configure_templates.py script
       - name: Configure nginx
-        run: configure-nginx.sh
+        run: ./configure-nginx.sh
 
       # Build Docker images
       - name: Build Docker Compose services

@@ -11,3 +11,4 @@ In order to run locally:
   - python3 configure_templates.py
   - docker-compose build
   - docker-compose up
+- The result file will be found under ./results
